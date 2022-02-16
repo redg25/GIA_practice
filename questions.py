@@ -52,11 +52,7 @@ def get_answer(name1,name2,adj_s,positive:bool,adj_q):
     elif adj_s != adj_q and not positive:
         return name1
 
-name1,name2,adj,positive = generate_situation()
-adj_for_question = extract_adjective_for_question(adj)
-print(phrase_situation(name1,name2,adj,positive))
-print(phrase_question(adj_for_question))
-print(get_answer(name1,name2,adj,positive,adj_for_question))
+
 
 
 
