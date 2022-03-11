@@ -1,0 +1,57 @@
+# gia_screens.kv
+
+# note: this time there are no ids at all
+ScreenManager:
+    id: screen_manager
+    #transition: FadeTransition()
+    Menu:
+        id: menu
+        name: 'menu'
+        manager: 'screen_manager'
+    SingleTest:
+        id: singletest
+        name: 'singletest'
+        manager: 'screen_manager'
+    NumbersTest:
+        id: numbers
+        name: 'numbers'
+        manager: 'screen_manager'
+
+<Menu>:
+    orientation: "vertical"
+    Label:
+        size_hint_y: 0.2
+        text: 'Choose a GIA test'
+    Button:
+        text: 'Numbers'
+        size_hint_y: 0.2
+        on_release: root.go_to_a_screen_test('numbers')
+
+<SingleTest>:
+    orientation: "vertical"
+    Label:
+        id: score_lbl
+        halign: 'center'
+        valign: 'middle'
+        font_size: 24
+        size_hint_y: 0.3
+        text: ''
+    BoxLayout:
+        id: boxtest
+        orientation: "horizontal"
+        size_hint_y: 0.5
+    Button:
+        id: to_menu
+        font_size: 30
+        size_hint_y: 0.2
+        text: 'Back to the menu'
+        on_release: root.remove_test_layout()
+
+<NumbersTest>:
+    orientation: "vertical"
+
+
+
+
+
+

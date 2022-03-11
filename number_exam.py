@@ -25,10 +25,9 @@ def find_answer(numbers:List[int]) -> int:
     else:
         return sorted_numbers[0]
 
-sample = get_three_valid_numbers()
-print(sample)
-answer = find_answer(sample)
-print(f'the answer for this sample {sample} is {answer}')
-
+def get_question_and_answer():
+    question = get_three_valid_numbers()
+    answer = find_answer(question)
+    return question, answer
 
 
