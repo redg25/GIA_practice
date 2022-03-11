@@ -8,7 +8,7 @@ ScreenManager:
         id: menu
         name: 'menu'
         manager: 'screen_manager'
-    SingleTest:
+    SingleTestInterface:
         id: singletest
         name: 'singletest'
         manager: 'screen_manager'
@@ -27,7 +27,7 @@ ScreenManager:
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('numbers')
 
-<SingleTest>:
+<SingleTestInterface>:
     orientation: "vertical"
     Label:
         id: score_lbl

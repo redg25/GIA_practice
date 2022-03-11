@@ -9,11 +9,11 @@ import number_exam
 
 class Menu(BoxLayout, Screen):
     """
-    Assign the proper screen for a given test
+    Assigns the proper screen for a given test
     set the needed extra layout
-    and generate the first question.
+    and generates the first question.
     """
-    def go_to_a_screen_test(self, screen_name):
+    def go_to_a_screen_test(self, screen_name: str):
         """"""
         app.root.current = screen_name
         screen = app.root.current_screen
@@ -22,11 +22,11 @@ class Menu(BoxLayout, Screen):
         screen.start_timer()
 
 
-class SingleTest(BoxLayout, Screen):
-    """Parent class for all the different test screens"""
+class SingleTestInterface(BoxLayout, Screen):
+    """Interface for all the different test screens classes"""
     def __init__(self, **kwargs):
         __metaclass__ = abc.ABCMeta
-        super(SingleTest, self).__init__(**kwargs)
+        super(SingleTestInterface, self).__init__(**kwargs)
         self.question: str = ''
         self.answer: str = ''
         self.score: int = 0
@@ -43,16 +43,16 @@ class SingleTest(BoxLayout, Screen):
 
     @abc.abstractmethod
     def design(self):
-        """Design specific layout for a given test"""
+        """Designs specific layout for a given test"""
         pass
 
     @abc.abstractmethod
     def update_layout_with_new_question(self):
-        """Generate a new question and assign it to the layout of a given test"""
+        """Generates a new question and assigns it to the layout of a given test"""
         pass
 
-    def check_answer_update_score_and_add_new_question(self, button):
-        """Compare the user's answer with the expected answer"""
+    def check_answer_update_score_and_add_new_question(self, button: Button):
+        """Compares the user's answer with the expected answer"""
         if button.text == str(self.answer):
             self.score += 1
         else:
@@ -68,12 +68,12 @@ class SingleTest(BoxLayout, Screen):
 
     def start_timer(self):
         """Timer to start when a test is starting"""
-        timer = threading.Timer(5.0, self.stop_game)
+        timer = threading.Timer(180, self.stop_game)
         timer.start()
 
     def remove_test_layout(self):
         """
-        Reset the screen and variables to its original layout/values
+        Reset the screen and variables to their original layout/values
         Set the 'menu' screen as the current one
         """
         self.ids.boxtest.remove_widget(self.ids.boxtest.children[0])
@@ -83,14 +83,14 @@ class SingleTest(BoxLayout, Screen):
         app.root.current = 'menu'
 
 
-class NumbersTest(SingleTest):
+class NumbersTest(SingleTestInterface):
 
     def design(self):
-        h_layout = BoxLayout(orientation= 'horizontal')
+        h_layout = BoxLayout(orientation='horizontal')
         for n in range(3):
             b_name = f'button_{n+1}'
             button = Button(text='', on_release=self.check_answer_update_score_and_add_new_question,
-                            font_size=80, disabled = False)
+                            font_size=80, disabled=False)
             self.widgets['buttons'][b_name] = button
             h_layout.add_widget(button)
         self.ids.boxtest.add_widget(h_layout)
