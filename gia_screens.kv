@@ -16,6 +16,11 @@ ScreenManager:
         id: numbers
         name: 'numbers'
         manager: 'screen_manager'
+    LettersTest:
+        id: letters
+        name: 'letters'
+        manager: 'screen_manager'
+
 
 <Menu>:
     orientation: "vertical"
@@ -26,6 +31,10 @@ ScreenManager:
         text: 'Numbers'
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('numbers')
+    Button:
+        text: 'Letters'
+        size_hint_y: 0.2
+        on_release: root.go_to_a_screen_test('letters')
 
 <SingleTestInterface>:
     orientation: "vertical"
@@ -34,12 +43,12 @@ ScreenManager:
         halign: 'center'
         valign: 'middle'
         font_size: 24
-        size_hint_y: 0.3
+        size_hint_y: 0.2
         text: ''
-    BoxLayout:
+    RelativeLayout:
         id: boxtest
         orientation: "horizontal"
-        size_hint_y: 0.5
+        size_hint_y: 0.6
     Button:
         id: to_menu
         font_size: 30
@@ -49,6 +58,11 @@ ScreenManager:
 
 <NumbersTest>:
     orientation: "vertical"
+
+<LettersTest>:
+    orientation: "vertical"
+
+
 
 
 

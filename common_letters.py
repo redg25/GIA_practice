@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 letters = {'a':[],
            'b':['d','p','q','g'],
@@ -39,7 +40,7 @@ def letter_choice():
     letter_pair = random.choice(choice_for_pair)
     return [letter,letter_pair]
 
-def question():
+def get_question():
     up=[]
     down=[]
     while len(up)<4:
@@ -52,15 +53,23 @@ def question():
         up = [x.upper() for x in up]
     else:
         down = [x.upper() for x in down]
-    return up,down
+    return [up, down]
 
-def get_nb_of_pairs(up, down):
+def get_nb_of_pairs(lines:List[list]):
     score = 0
+    up = lines[0]
+    down = lines[1]
     for u,d in zip(up,down):
         if u.lower() == d.lower():
             score += 1
     return score
 
+
+def get_question_and_answer():
+    question = get_question()
+    all_letters = question[0]+ question[1]
+    answer = get_nb_of_pairs(question)
+    return all_letters, answer
 
 
 
