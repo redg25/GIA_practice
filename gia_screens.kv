@@ -20,6 +20,10 @@ ScreenManager:
         id: letters
         name: 'letters'
         manager: 'screen_manager'
+    RTest:
+        id: rotated_r
+        name: 'rotated_r'
+        manager: 'screen_manager'
 
 
 <Menu>:
@@ -35,6 +39,10 @@ ScreenManager:
         text: 'Letters'
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('letters')
+    Button:
+        text: 'Spatial visualization'
+        size_hint_y: 0.2
+        on_release: root.go_to_a_screen_test('rotated_r')
 
 <SingleTestInterface>:
     orientation: "vertical"
@@ -49,6 +57,7 @@ ScreenManager:
         id: boxtest
         orientation: "horizontal"
         size_hint_y: 0.6
+
     Button:
         id: to_menu
         font_size: 30
@@ -62,6 +71,8 @@ ScreenManager:
 <LettersTest>:
     orientation: "vertical"
 
+<RTest>:
+    orientation: "vertical"
 
 
 
