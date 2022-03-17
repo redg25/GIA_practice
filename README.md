@@ -29,4 +29,8 @@ and to assign the ids of words/expressions for the possible questions to be made
 ex: **rich** has **richer** and **more money** in the **same** column, and **poorer** and **less money** in the **opposite** column<br>
 *Note that **type 1** can't be use in the **same** and **opposite** columns. We can't make question out of simple adjective.*<br><br>
 ### Next steps
-I will add a feature to export a detailed report of a test, giving the time it took for each question to be answered. 
+I will add a feature to export a detailed report of a test, giving the time it took for each question to be answered. <br><br>
+A couple of screenshots:<br><br>
+
+![Menu](/Images/menu.png)
+![Number speed](/Images/Number_speed.png)
