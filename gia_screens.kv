@@ -1,6 +1,5 @@
 # gia_screens.kv
 
-# note: this time there are no ids at all
 ScreenManager:
     id: screen_manager
     #transition: FadeTransition()
@@ -8,7 +7,7 @@ ScreenManager:
         id: menu
         name: 'menu'
         manager: 'screen_manager'
-    SingleTestInterface:
+    AbstractSingleTest:
         id: singletest
         name: 'singletest'
         manager: 'screen_manager'
@@ -24,6 +23,14 @@ ScreenManager:
         id: rotated_r
         name: 'rotated_r'
         manager: 'screen_manager'
+    PairsTest:
+        id: pairs
+        name: 'pairs'
+        manager: 'screen_manager'
+    ReasoningTest:
+        id: reasoning
+        name: 'reasoning'
+        manager: 'screen_manager'
 
 
 <Menu>:
@@ -32,17 +39,25 @@ ScreenManager:
         size_hint_y: 0.2
         text: 'Choose a GIA test'
     Button:
-        text: 'Numbers'
+        text: 'Number speed & accuracy'
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('numbers')
     Button:
-        text: 'Letters'
+        text: 'Perceptual speed'
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('letters')
     Button:
         text: 'Spatial visualization'
         size_hint_y: 0.2
         on_release: root.go_to_a_screen_test('rotated_r')
+    Button:
+        text: 'Word meaning'
+        size_hint_y: 0.2
+        on_release: root.go_to_a_screen_test('pairs')
+    Button:
+        text: 'Reasoning'
+        size_hint_y: 0.2
+        on_release: root.go_to_a_screen_test('reasoning')
 
 <SingleTestInterface>:
     orientation: "vertical"
@@ -73,6 +88,13 @@ ScreenManager:
 
 <RTest>:
     orientation: "vertical"
+
+<PairsTest>:
+    orientation: "vertical"
+
+<ReasoningTest>:
+    orientation: "vertical"
+
 
 
 

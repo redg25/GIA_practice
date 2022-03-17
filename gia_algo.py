@@ -1,6 +1,7 @@
 import random
 from typing import List
 from collections import Counter
+import csv
 
 
 def number_speed_and_accuracy():
@@ -133,13 +134,71 @@ def spatial_visualisation():
     return questions, result
 
 
+def word_meaning():
+    csv_to_dict = []
+    with open ('pairs.csv', 'r', encoding='utf-8-sig') as file:
+        data = csv.DictReader(file)
+        for col in data:
+            csv_to_dict.append({'pair1':col['pair1'],'pair2':col['pair2'],'word_type':col['type']})
+    random_pair = random.choice(csv_to_dict)
+    word1 = random_pair['pair1']
+    word2 = random_pair['pair2']
+    pair_type = random_pair['word_type']
+    word3_choices = [[x['pair1'],x['pair2']] for x in csv_to_dict if x['word_type'] == pair_type and x['pair1'] != word1]
+    word3 = random.choice(random.choice(word3_choices))
+    question = [word1,word2,word3]
+    random.shuffle(question)
+    return question, word3
 
 
-# print(spatial_visualisation())
-#
-#
-# stats=[]
-# for n in range(1000):
-#     stats.append(spatial_visualisation()[1])
-#
-# print(Counter(stats))
+def reasoning():
+
+    def make_fact(word_type:int, word: str) -> str:
+        str_fact = ''
+        if word_type == 1:
+            str_fact = f' is not as {word} as '
+        elif word_type ==2:
+            str_fact = f' is {word} than '
+        elif word_type == 3 or word_type == 4:
+            str_fact = f' has {word} than '
+        elif word_type == 5:
+            str_fact= f' is {word} than '
+        return str_fact
+
+    def make_question(word_type:int, word: str) -> str:
+        str_question = ''
+        if word_type ==2:
+            str_question = f'Who is {word}?'
+        elif word_type == 3 or word_type == 4:
+            str_question = f'Who has {word}?'
+        elif word_type == 5:
+            str_question= f'Who is {word}?'
+        return str_question
+
+    names = ['John','Ben','Vince','Brad','Matt', 'Anna','Lea','Alice','Julie']
+    csv_to_dict = []
+    with open ('reasoning.csv', 'r', encoding='utf-8-sig') as file:
+        data = csv.DictReader(file)
+        for col in data:
+            if col['type']=='1':
+                answerA = col['opposite']
+                answerB = col['same']
+            else:
+                answerA= col['same']
+                answerB=col['opposite']
+            csv_to_dict.append({'id': col['id'], 'word': col['word'], 'type': col['type'],
+                                'same': col['same'], 'opposite': col['opposite'], 'answerA': answerA,
+                                'answerB': answerB})
+    names = dict(zip(['answerA','answerB'], random.sample(names,2)))
+    row_fact = random.choice(csv_to_dict)
+    fact = f'{names["answerA"]}{make_fact(int(row_fact["type"]),row_fact["word"])}{names["answerB"]}'
+    answer = random.choice(['answerA','answerB'])
+    id_question = random.choice(row_fact[answer].split(','))
+    print(fact)
+    print(id_question)
+    row_question = [x for x in csv_to_dict if x['id'] == id_question]
+    print(row_question)
+    question = make_question(int(row_question[0]['type']), row_question[0]['word'])
+    name_answer = names[answer]
+    return [fact, question, list(names.values())], name_answer
+
