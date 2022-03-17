@@ -134,7 +134,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
 
     def start_timer(self):
         """Timer to start when a test is starting"""
-        self.timer = threading.Timer(30, self.stop_game)
+        self.timer = threading.Timer(180, self.stop_game)
         self.timer.start()
 
     def remove_test_layout(self):
