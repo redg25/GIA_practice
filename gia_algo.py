@@ -81,7 +81,7 @@ def perceptual_speed():
                 up.append(new_pair[0])
                 down.append(new_pair[1])
 
-        if random.randbytes(1):
+        if random.choice([True, False]):
             up = [x.upper() for x in up]
         else:
             down = [x.upper() for x in down]
