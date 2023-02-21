@@ -199,8 +199,10 @@ class LettersTest(SingleTestInterface):
 
 
 class RTest(SingleTestInterface):
-
+    LETTER = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    
     def design(self):
+        RTest.LETTER = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         h_layout = BoxLayout(orientation='vertical',
                              pos_hint={'center_x': 0.5, 'center_y': 0.5},
                              size_hint=(0.8, 0.8))
@@ -208,7 +210,7 @@ class RTest(SingleTestInterface):
                           size_hint=(0.5, 0.8),
                           pos_hint={'center_x': 0.5, 'center_y': 0.5})
         for n in range(4):
-            source = make_r_image(0, 0)
+            source = make_letter_image(RTest.LETTER, 0, 0)
             img = ImgK()
             img.texture = source.texture
             grid.add_widget(img)
@@ -232,7 +234,7 @@ class RTest(SingleTestInterface):
         super().update_layout_with_new_question(func)
         R_data =[self.question[0][0],self.question[1][0],self.question[0][1],self.question[1][1]]
         for data, image in zip(R_data,self.widgets['images'].values()):
-            source = make_r_image(data[0], data[1])
+            source = make_letter_image(RTest.LETTER, data[0], data[1])
             image.texture = source.texture
 
 
@@ -328,15 +330,25 @@ def update_layout_for_3_choices(screen):
         value.text = str(screen.question[i])
 
 
-def make_r_image(side, angle):
-    """Generates a PIL Image of a drawn R with a given side and angle"""
+def make_letter_image(letter, side, angle):
+    """
+    Generates a PIL Image of a drawn letter with a given side and angle
+
+    Args:
+        letter (str): The letter to draw on the image
+        side (int): Either 0 or 1; 0 for normal orientation, 1 for flipped horizontally
+        angle (float): The angle to rotate the image, in degrees
+
+    Returns:
+        kivy.core.image.CoreImage: The resulting CoreImage
+    """
     # Define text font
     fnt = ImageFont.truetype('arial.ttf', 85)
     # Create a new PIL image
-    image = Image.new(mode = "RGB", size = (150,150), color = "white")
-    # Draw a black R on the image
+    image = Image.new(mode="RGB", size=(150, 150), color="white")
+    # Draw the letter on the image
     draw = ImageDraw.Draw(image)
-    draw.text((40, 40), "R", font=fnt, fill='black',align='center',stroke_width=1,
+    draw.text((40, 40), letter, font=fnt, fill='black', align='center', stroke_width=1,
               stroke_fill="black")
     # Rotate the image
     image = image.rotate(angle)
