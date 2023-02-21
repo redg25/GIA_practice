@@ -62,15 +62,11 @@ def perceptual_speed():
 
     def letter_choice():
         letter = random.choice(list(letters.keys()))
-        choice_for_pair = list(letters.keys())
-        for similar in letters[letter]:
-            for n in range(9):
-                choice_for_pair.append(similar)
-        r = len(choice_for_pair)*8//10
-        for n in range(r):
-            choice_for_pair.append(letter)
+        choice_for_pair = list(letters.keys()) + letters[letter] * 9
+        r = len(choice_for_pair) * 8 // 10
+        choice_for_pair += [letter] * r
         letter_pair = random.choice(choice_for_pair)
-        return [letter,letter_pair]
+        return [letter, letter_pair]
 
     def get_question():
         up=[]
