@@ -198,7 +198,12 @@ def reasoning():
     print(id_question)
     row_question = [x for x in csv_to_dict if x['id'] == id_question]
     print(row_question)
-    question = make_question(int(row_question[0]['type']), row_question[0]['word'])
+    if not row_question:
+        print(f"Answer {answer}")
+        print(f"Row fact {row_fact}")
+        print(f"No question found for id {id_question}")
+    else:
+        question = make_question(int(row_question[0]['type']), row_question[0]['word'])    
     name_answer = names[answer]
     return [fact, question, list(names.values())], name_answer
 
