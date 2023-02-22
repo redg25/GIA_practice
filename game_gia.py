@@ -165,7 +165,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
             self.ids.boxtest.remove_widget(self.ids.boxtest.children[0])
         self.ids.score_lbl.text = ''
         self.score = 0
-        self.number_of_questions_answered = 1
+        self.number_of_questions_answered = 0
         app.root.current = 'menu'
 
 
