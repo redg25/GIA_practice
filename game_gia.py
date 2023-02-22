@@ -201,7 +201,7 @@ class LettersTest(SingleTestInterface):
 class RTest(SingleTestInterface):
     
     def design(self):
-        RTest.LETTER = random.choice("ABCDEFGJKLNPQRSZ")
+        RTest.LETTER = random.choice("AFGJLNPQRSZ")
         h_layout = BoxLayout(orientation='vertical',
                              pos_hint={'center_x': 0.5, 'center_y': 0.5},
                              size_hint=(0.8, 0.8))
