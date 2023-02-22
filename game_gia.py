@@ -245,6 +245,7 @@ class RTest(SingleTestInterface):
         self.ids.boxtest.add_widget(h_layout)
 
     def update_layout_with_new_question(self, func):
+        RTest.LETTER = random.choice("FGJLNPQRSZ")
         super().update_layout_with_new_question(func)
         R_data =[self.question[0][0],self.question[1][0],self.question[0][1],self.question[1][1]]
         for data, image in zip(R_data,self.widgets['images'].values()):
