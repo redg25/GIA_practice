@@ -1,4 +1,7 @@
 import random
+import configparser
+import json
+import os
 
 from kivy.app import App, Builder
 from kivy.uix.screenmanager import Screen
@@ -75,9 +78,20 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         self.number_of_questions: int = 1
         self.widgets: dict = {'buttons': {}, 'labels': {}, 'images': {},'box':{}}
         self.timer: threading.Timer = None
+        self.load_config()
         self.details_results: List[AnswerDetails] = []  # To store all the details of each question answered
         self.question_start_time: float = 0
-
+        
+        # Read the timer duration from the configuration file and convert it to an integer
+        self.timer_duration = int(self.config['TIMER']['duration'])
+    
+    def load_config(self):
+        self.config = configparser.ConfigParser()
+        if os.path.exists('config.ini'):
+            self.config.read('config.ini')
+        else:
+            self.config['TIMER'] = {'duration': '180'}
+            
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'design') and
@@ -134,7 +148,8 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
 
     def start_timer(self):
         """Timer to start when a test is starting"""
-        self.timer = threading.Timer(180, self.stop_game)
+        duration = self.config.getint('TIMER', 'duration', fallback=180)
+        self.timer = threading.Timer(duration, self.stop_game)
         self.timer.start()
 
     def remove_test_layout(self):
