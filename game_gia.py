@@ -384,7 +384,9 @@ class MainApp(App):
         print(Window.size)
         file = Builder.load_file('gia_screens.kv')
         return file
-
+    def on_stop(self):
+        if self.root.current_screen.timer is not None:
+            self.root.current_screen.timer.cancel()
 
 if __name__ == '__main__':
     app = MainApp()
