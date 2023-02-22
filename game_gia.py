@@ -75,7 +75,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         self.question: str = ''
         self.answer: str = ''
         self.score: int = 0
-        self.number_of_questions: int = 1
+        self.number_of_questions_answered: int = 0
         self.widgets: dict = {'buttons': {}, 'labels': {}, 'images': {},'box':{}}
         self.timer: threading.Timer = None
         self.load_config()
@@ -115,7 +115,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         detail = AnswerDetails(question= self.question,
                                answer= self.answer,
                                answering_time=time.time()-self.question_start_time,
-                               nb=self.number_of_questions
+                               nb=self.number_of_questions_answered
                                )
         return detail
 
@@ -135,14 +135,14 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         func = functions_for_test[self.screen_name]
         # Generates a new question and updates the layout
         self.update_layout_with_new_question(func)
-        self.number_of_questions += 1
+        self.number_of_questions_answered += 1
 
     def stop_game(self):
         """ When the timer is done, disable all buttons and show the user score"""
         for value in self.widgets['buttons'].values():
             value.disabled = True
         self.ids.score_lbl.text = f'Your score is {self.score}\n' \
-                                  f'There was {self.number_of_questions} questions'
+                                  f'You answered {self.number_of_questions_answered} questions'
         for detail in self.details_results:
             print(f'Question: {detail.nb} was {detail.correct} in {round(detail.answering_time,1)} s')
 
@@ -165,7 +165,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
             self.ids.boxtest.remove_widget(self.ids.boxtest.children[0])
         self.ids.score_lbl.text = ''
         self.score = 0
-        self.number_of_questions = 1
+        self.number_of_questions_answered = 1
         app.root.current = 'menu'
 
 
