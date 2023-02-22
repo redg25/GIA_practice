@@ -120,8 +120,6 @@ walk,jog,verb
 start,end,verb
 rich,poor,adjective
 sun,moon,noun
-chocolate,vanilla,noun
-summer,winter,noun
 fast,slow,adjective
 love,hate,verb
 positive,negative,adjective
@@ -142,7 +140,6 @@ quiet,loud,adjective
 friend,enemy,noun
 healthy,sick,adjective
 tall,short,adjective
-thick,thin,adjective
 brave,cowardly,adjective
 clean,dirty,adjective
 day,night,noun
@@ -154,12 +151,10 @@ glass,plastic,noun
 happy,angry,adjective
 hard,easy,adjective
 heavy,light,adjective
-high,low,adjective
 inside,outside,adverb
 king,queen,noun
 large,small,adjective
 loud,quiet,adjective
-man,woman,noun
 near,far,adverb
 old,young,adjective
 rich,cheap,adjective
@@ -177,7 +172,6 @@ alive,dead,adjective
 angry,calm,adjective
 bad,good,adjective
 beautiful,ugly,adjective
-black,white,adjective
 bold,timid,adjective
 boring,exciting,adjective
 bottom,top,noun
@@ -191,7 +185,6 @@ courageous,fearful,adjective
 crazy,sane,adjective
 crooked,straight,adjective
 dark,light,adjective
-deep,shallow,adjective
 difficult,easy,adjective
 dirty,clean,adjective
 dry,wet,noun
