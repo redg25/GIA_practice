@@ -216,7 +216,7 @@ class LettersTest(SingleTestInterface):
 class RTest(SingleTestInterface):
     
     def design(self):
-        RTest.LETTER = random.choice("FGJLNPQRSZ")
+        RTest.LETTER = random.choice("R")
         h_layout = BoxLayout(orientation='vertical',
                              pos_hint={'center_x': 0.5, 'center_y': 0.5},
                              size_hint=(0.8, 0.8))
@@ -245,7 +245,8 @@ class RTest(SingleTestInterface):
         self.ids.boxtest.add_widget(h_layout)
 
     def update_layout_with_new_question(self, func):
-        RTest.LETTER = random.choice("FGJLNPQRSZ")
+        # Real test seems to only use 'R', but you can make it harder by uncommenting below
+		# RTest.LETTER = random.choice("FGJLNPQRSZ")
         super().update_layout_with_new_question(func)
         R_data =[self.question[0][0],self.question[1][0],self.question[0][1],self.question[1][1]]
         for data, image in zip(R_data,self.widgets['images'].values()):
