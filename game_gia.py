@@ -1,4 +1,7 @@
 import random
+import configparser
+import json
+import os
 
 from kivy.app import App, Builder
 from kivy.uix.screenmanager import Screen
@@ -72,12 +75,23 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         self.question: str = ''
         self.answer: str = ''
         self.score: int = 0
-        self.number_of_questions: int = 1
+        self.number_of_questions_answered: int = 0
         self.widgets: dict = {'buttons': {}, 'labels': {}, 'images': {},'box':{}}
         self.timer: threading.Timer = None
+        self.load_config()
         self.details_results: List[AnswerDetails] = []  # To store all the details of each question answered
         self.question_start_time: float = 0
-
+        
+        # Read the timer duration from the configuration file and convert it to an integer
+        self.timer_duration = int(self.config['TIMER']['duration'])
+    
+    def load_config(self):
+        self.config = configparser.ConfigParser()
+        if os.path.exists('config.ini'):
+            self.config.read('config.ini')
+        else:
+            self.config['TIMER'] = {'duration': '180'}
+            
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'design') and
@@ -101,7 +115,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         detail = AnswerDetails(question= self.question,
                                answer= self.answer,
                                answering_time=time.time()-self.question_start_time,
-                               nb=self.number_of_questions
+                               nb=self.number_of_questions_answered
                                )
         return detail
 
@@ -121,20 +135,21 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         func = functions_for_test[self.screen_name]
         # Generates a new question and updates the layout
         self.update_layout_with_new_question(func)
-        self.number_of_questions += 1
+        self.number_of_questions_answered += 1
 
     def stop_game(self):
         """ When the timer is done, disable all buttons and show the user score"""
         for value in self.widgets['buttons'].values():
             value.disabled = True
         self.ids.score_lbl.text = f'Your score is {self.score}\n' \
-                                  f'There was {self.number_of_questions} questions'
+                                  f'You answered {self.number_of_questions_answered} questions'
         for detail in self.details_results:
             print(f'Question: {detail.nb} was {detail.correct} in {round(detail.answering_time,1)} s')
 
     def start_timer(self):
         """Timer to start when a test is starting"""
-        self.timer = threading.Timer(180, self.stop_game)
+        duration = self.config.getint('TIMER', 'duration', fallback=180)
+        self.timer = threading.Timer(duration, self.stop_game)
         self.timer.start()
 
     def remove_test_layout(self):
@@ -150,7 +165,7 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
             self.ids.boxtest.remove_widget(self.ids.boxtest.children[0])
         self.ids.score_lbl.text = ''
         self.score = 0
-        self.number_of_questions = 1
+        self.number_of_questions_answered = 0
         app.root.current = 'menu'
 
 
@@ -199,8 +214,9 @@ class LettersTest(SingleTestInterface):
 
 
 class RTest(SingleTestInterface):
-
+    
     def design(self):
+        RTest.LETTER = random.choice("R")
         h_layout = BoxLayout(orientation='vertical',
                              pos_hint={'center_x': 0.5, 'center_y': 0.5},
                              size_hint=(0.8, 0.8))
@@ -208,7 +224,7 @@ class RTest(SingleTestInterface):
                           size_hint=(0.5, 0.8),
                           pos_hint={'center_x': 0.5, 'center_y': 0.5})
         for n in range(4):
-            source = make_r_image(0, 0)
+            source = make_letter_image(RTest.LETTER, 0, 0)
             img = ImgK()
             img.texture = source.texture
             grid.add_widget(img)
@@ -229,10 +245,12 @@ class RTest(SingleTestInterface):
         self.ids.boxtest.add_widget(h_layout)
 
     def update_layout_with_new_question(self, func):
+        # Real test seems to only use 'R', but you can make it harder by uncommenting below
+		# RTest.LETTER = random.choice("FGJLNPQRSZ")
         super().update_layout_with_new_question(func)
         R_data =[self.question[0][0],self.question[1][0],self.question[0][1],self.question[1][1]]
         for data, image in zip(R_data,self.widgets['images'].values()):
-            source = make_r_image(data[0], data[1])
+            source = make_letter_image(RTest.LETTER, data[0], data[1])
             image.texture = source.texture
 
 
@@ -328,15 +346,25 @@ def update_layout_for_3_choices(screen):
         value.text = str(screen.question[i])
 
 
-def make_r_image(side, angle):
-    """Generates a PIL Image of a drawn R with a given side and angle"""
+def make_letter_image(letter, side, angle):
+    """
+    Generates a PIL Image of a drawn letter with a given side and angle
+
+    Args:
+        letter (str): The letter to draw on the image
+        side (int): Either 0 or 1; 0 for normal orientation, 1 for flipped horizontally
+        angle (float): The angle to rotate the image, in degrees
+
+    Returns:
+        kivy.core.image.CoreImage: The resulting CoreImage
+    """
     # Define text font
     fnt = ImageFont.truetype('arial.ttf', 85)
     # Create a new PIL image
-    image = Image.new(mode = "RGB", size = (150,150), color = "white")
-    # Draw a black R on the image
+    image = Image.new(mode="RGB", size=(150, 150), color="white")
+    # Draw the letter on the image
     draw = ImageDraw.Draw(image)
-    draw.text((40, 40), "R", font=fnt, fill='black',align='center',stroke_width=1,
+    draw.text((40, 40), letter, font=fnt, fill='black', align='center', stroke_width=1,
               stroke_fill="black")
     # Rotate the image
     image = image.rotate(angle)
@@ -358,7 +386,9 @@ class MainApp(App):
         print(Window.size)
         file = Builder.load_file('gia_screens.kv')
         return file
-
+    def on_stop(self):
+        if self.root.current_screen.timer is not None:
+            self.root.current_screen.timer.cancel()
 
 if __name__ == '__main__':
     app = MainApp()

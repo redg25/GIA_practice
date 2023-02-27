@@ -62,15 +62,11 @@ def perceptual_speed():
 
     def letter_choice():
         letter = random.choice(list(letters.keys()))
-        choice_for_pair = list(letters.keys())
-        for similar in letters[letter]:
-            for n in range(9):
-                choice_for_pair.append(similar)
-        r = len(choice_for_pair)*8//10
-        for n in range(r):
-            choice_for_pair.append(letter)
+        choice_for_pair = list(letters.keys()) + letters[letter] * 9
+        r = len(choice_for_pair) * 8 // 10
+        choice_for_pair += [letter] * r
         letter_pair = random.choice(choice_for_pair)
-        return [letter,letter_pair]
+        return [letter, letter_pair]
 
     def get_question():
         up=[]
@@ -81,7 +77,7 @@ def perceptual_speed():
                 up.append(new_pair[0])
                 down.append(new_pair[1])
 
-        if random.randbytes(1):
+        if random.choice([True, False]):
             up = [x.upper() for x in up]
         else:
             down = [x.upper() for x in down]
@@ -198,7 +194,12 @@ def reasoning():
     print(id_question)
     row_question = [x for x in csv_to_dict if x['id'] == id_question]
     print(row_question)
-    question = make_question(int(row_question[0]['type']), row_question[0]['word'])
+    if not row_question:
+        print(f"Answer {answer}")
+        print(f"Row fact {row_fact}")
+        print(f"No question found for id {id_question}")
+    else:
+        question = make_question(int(row_question[0]['type']), row_question[0]['word'])    
     name_answer = names[answer]
     return [fact, question, list(names.values())], name_answer
 
