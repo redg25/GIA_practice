@@ -359,7 +359,12 @@ def make_letter_image(letter, side, angle):
         kivy.core.image.CoreImage: The resulting CoreImage
     """
     # Define text font
-    fnt = ImageFont.truetype('arial.ttf', 85)
+    font_size = 85
+    try:
+        fnt = ImageFont.truetype('arial.ttf', font_size)
+    except OSError:
+        fnt = ImageFont.load_default(font_size)
+
     # Create a new PIL image
     image = Image.new(mode="RGB", size=(150, 150), color="white")
     # Draw the letter on the image
