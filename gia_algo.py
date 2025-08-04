@@ -190,10 +190,7 @@ def reasoning():
     fact = f'{names["answerA"]}{make_fact(int(row_fact["type"]),row_fact["word"])}{names["answerB"]}'
     answer = random.choice(['answerA','answerB'])
     id_question = random.choice(row_fact[answer].split(','))
-    print(fact)
-    print(id_question)
     row_question = [x for x in csv_to_dict if x['id'] == id_question]
-    print(row_question)
     if not row_question:
         print(f"Answer {answer}")
         print(f"Row fact {row_fact}")

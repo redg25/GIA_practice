@@ -81,17 +81,17 @@ class SingleTestInterface(BoxLayout, AbstractSingleTest):
         self.load_config()
         self.details_results: List[AnswerDetails] = []  # To store all the details of each question answered
         self.question_start_time: float = 0
-        
+
         # Read the timer duration from the configuration file and convert it to an integer
         self.timer_duration = int(self.config['TIMER']['duration'])
-    
+
     def load_config(self):
         self.config = configparser.ConfigParser()
         if os.path.exists('config.ini'):
             self.config.read('config.ini')
         else:
             self.config['TIMER'] = {'duration': '180'}
-            
+
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'design') and
@@ -214,7 +214,7 @@ class LettersTest(SingleTestInterface):
 
 
 class RTest(SingleTestInterface):
-    
+
     def design(self):
         RTest.LETTER = random.choice("R")
         h_layout = BoxLayout(orientation='vertical',
@@ -252,6 +252,7 @@ class RTest(SingleTestInterface):
         for data, image in zip(R_data,self.widgets['images'].values()):
             source = make_letter_image(RTest.LETTER, data[0], data[1])
             image.texture = source.texture
+
 
 
 class PairsTest(SingleTestInterface):
@@ -388,7 +389,7 @@ def make_letter_image(letter, side, angle):
 class MainApp(App):
 
     def build(self):
-        print(Window.size)
+        # print(Window.size)
         file = Builder.load_file('gia_screens.kv')
         return file
     def on_stop(self):
